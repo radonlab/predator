@@ -1,18 +1,22 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '1.5.8.RELEASE'
+    id 'org.springframework.boot' version '1.5.8.RELEASE' apply false
 }
 
-group 'cc.radonlab'
-version '1.0-SNAPSHOT'
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
 
-sourceCompatibility = 1.8
+    group 'cc.radonlab'
+    version '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
+    sourceCompatibility = 1.8
 
-dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    testCompile 'junit:junit'
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile 'org.springframework.boot:spring-boot-starter-web'
+        testCompile 'junit:junit'
+    }
 }
