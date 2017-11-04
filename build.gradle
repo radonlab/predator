@@ -13,6 +13,6 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:1.5.8.RELEASE'
-    testCompile 'junit:junit:4.12'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    testCompile 'junit:junit'
 }
