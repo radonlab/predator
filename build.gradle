@@ -20,3 +20,7 @@ allprojects {
         testCompile 'junit:junit'
     }
 }
+
+dependencies {
+    compile project(':predator-api')
+}
