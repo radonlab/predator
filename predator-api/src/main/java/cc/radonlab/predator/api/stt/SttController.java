@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
  * Controller that provides capability of converting speech to text.
  */
 @RestController
-@RequestMapping(value = "/stt")
+@RequestMapping("/stt")
 public class SttController {
     public SttController() {
     }
 
-    @GetMapping(value = "/")
+    @GetMapping
     public String convert() {
         return "result text";
     }
