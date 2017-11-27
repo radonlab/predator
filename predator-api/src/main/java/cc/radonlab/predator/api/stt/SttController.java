@@ -6,6 +6,7 @@
 
 package cc.radonlab.predator.api.stt;
 
+import cc.radonlab.predator.api.stt.domain.TextResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -4,7 +4,7 @@
  * found in the LICENSE file.
  */
 
-package cc.radonlab.predator.api.stt;
+package cc.radonlab.predator.api.stt.service;
 
 public interface SttService {
 }
