@@ -6,5 +6,8 @@
 
 package cc.radonlab.predator.api.stt.service;
 
+import cc.radonlab.predator.api.stt.domain.TextResult;
+
 public interface SttService {
+    public TextResult translate();
 }
