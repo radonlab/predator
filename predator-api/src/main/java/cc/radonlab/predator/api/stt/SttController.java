@@ -7,6 +7,8 @@
 package cc.radonlab.predator.api.stt;
 
 import cc.radonlab.predator.api.stt.domain.TextResult;
+import cc.radonlab.predator.api.stt.service.SttService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/stt")
 public class SttController {
-    public SttController() {
+    private SttService sttService;
+
+    @Autowired
+    public SttController(SttService sttService) {
+        this.sttService = sttService;
     }
 
     @GetMapping
     public TextResult convert() {
-        return new TextResult();
+        return sttService.translate();
     }
 }
