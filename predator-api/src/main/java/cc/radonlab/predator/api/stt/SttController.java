@@ -20,7 +20,7 @@ public class SttController {
     }
 
     @GetMapping
-    public String convert() {
-        return "result text";
+    public TextResult convert() {
+        return new TextResult();
     }
 }
