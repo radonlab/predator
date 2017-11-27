@@ -7,6 +7,16 @@
 package cc.radonlab.predator.api.stt.domain;
 
 public class TextResult {
+    private String result;
+
     public TextResult() {
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }
