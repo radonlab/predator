@@ -22,5 +22,6 @@ allprojects {
 }
 
 dependencies {
+    compile project(':predator-main')
     compile project(':predator-api')
 }

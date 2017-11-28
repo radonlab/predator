@@ -2,10 +2,10 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="predator-main_main" target="1.8" />
+      <module name="predator-main_test" target="1.8" />
       <module name="predator-api_main" target="1.8" />
       <module name="predator-api_test" target="1.8" />
-      <module name="predator_main" target="1.8" />
-      <module name="predator_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
