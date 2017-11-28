@@ -21,6 +21,12 @@ subprojects {
         mavenCentral()
     }
 
+    dependencyManagement {
+        imports {
+            mavenBom('org.springframework.boot:spring-boot-dependencies:1.5.8.RELEASE')
+        }
+    }
+
     dependencies {
         compile 'org.springframework.boot:spring-boot-starter-web'
         testCompile 'junit:junit'
