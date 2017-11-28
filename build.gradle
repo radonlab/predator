@@ -10,6 +10,7 @@ buildscript {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'checkstyle'
     apply plugin: 'io.spring.dependency-management'
 
     group 'cc.radonlab'
