@@ -1,3 +1,4 @@
 dependencies {
     compile fileTree(dir: 'lib', includes: ['*.jar'])
+    compile 'io.netty:netty:3.7.1.Final'
 }
