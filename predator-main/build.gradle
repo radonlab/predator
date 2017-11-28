@@ -1,6 +1,4 @@
-plugins {
-    id 'org.springframework.boot' version '1.5.8.RELEASE'
-}
+apply plugin: 'org.springframework.boot'
 
 dependencies {
     compile project(':predator-api')
