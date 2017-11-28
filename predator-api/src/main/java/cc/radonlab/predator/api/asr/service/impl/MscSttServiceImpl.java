@@ -4,10 +4,10 @@
  * found in the LICENSE file.
  */
 
-package cc.radonlab.predator.api.stt.service.impl;
+package cc.radonlab.predator.api.asr.service.impl;
 
-import cc.radonlab.predator.api.stt.domain.TextResult;
-import cc.radonlab.predator.api.stt.service.SttService;
+import cc.radonlab.predator.api.asr.domain.TextResult;
+import cc.radonlab.predator.api.asr.service.SttService;
 import org.springframework.stereotype.Service;
 
 @Service

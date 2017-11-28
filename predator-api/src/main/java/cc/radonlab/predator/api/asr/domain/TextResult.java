@@ -4,7 +4,7 @@
  * found in the LICENSE file.
  */
 
-package cc.radonlab.predator.api.stt.domain;
+package cc.radonlab.predator.api.asr.domain;
 
 public class TextResult {
     private String result;

@@ -4,9 +4,9 @@
  * found in the LICENSE file.
  */
 
-package cc.radonlab.predator.api.stt.service;
+package cc.radonlab.predator.api.asr.service;
 
-import cc.radonlab.predator.api.stt.domain.TextResult;
+import cc.radonlab.predator.api.asr.domain.TextResult;
 
 public interface SttService {
     public TextResult translate();
