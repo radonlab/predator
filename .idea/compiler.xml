@@ -6,6 +6,8 @@
       <module name="predator-api_test" target="1.8" />
       <module name="predator-main_main" target="1.8" />
       <module name="predator-main_test" target="1.8" />
+      <module name="predator-web_main" target="1.8" />
+      <module name="predator-web_test" target="1.8" />
       <module name="predator_main" target="1.8" />
       <module name="predator_test" target="1.8" />
     </bytecodeTargetLevel>

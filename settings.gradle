@@ -1,3 +1,4 @@
 rootProject.name = 'predator'
 include 'predator-main'
 include 'predator-api'
+include 'predator-web'
