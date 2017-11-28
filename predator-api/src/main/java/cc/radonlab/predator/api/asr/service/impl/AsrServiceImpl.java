@@ -7,13 +7,13 @@
 package cc.radonlab.predator.api.asr.service.impl;
 
 import cc.radonlab.predator.api.asr.domain.TextResult;
-import cc.radonlab.predator.api.asr.service.SttService;
+import cc.radonlab.predator.api.asr.service.AsrService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MscSttServiceImpl implements SttService {
+public class AsrServiceImpl implements AsrService {
 
-    public MscSttServiceImpl() {
+    public AsrServiceImpl() {
     }
 
     @Override

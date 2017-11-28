@@ -8,6 +8,6 @@ package cc.radonlab.predator.api.asr.service;
 
 import cc.radonlab.predator.api.asr.domain.TextResult;
 
-public interface SttService {
+public interface AsrService {
     public TextResult translate();
 }
