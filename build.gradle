@@ -32,4 +32,9 @@ subprojects {
         compile 'org.springframework.boot:spring-boot-starter-web'
         testCompile 'junit:junit'
     }
+
+    checkstyle {
+        toolVersion = 8.5
+        configFile = rootProject.file('config/checkstyle/style.xml')
+    }
 }
