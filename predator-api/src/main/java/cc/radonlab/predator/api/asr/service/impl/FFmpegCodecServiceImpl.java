@@ -36,6 +36,39 @@ public class FFmpegCodecServiceImpl implements CodecService {
         this.pipe = initPipe();
     }
 
+    private File initPipe() {
+        try {
+            PIPES_DIR.mkdir();
+            File pipe = new File(PIPES_DIR, "pipe");
+            if (!pipe.exists()) {
+                makePipe(pipe);
+            }
+            return pipe;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            abortBoot();
+            return null;
+        }
+    }
+
+    private void makePipe(File pipe) throws IOException, InterruptedException {
+        String[] cmd = {
+                "mkfifo",
+                pipe.getAbsolutePath()
+        };
+        logger.info("exec: {}", String.join(" ", cmd));
+        Process process = Runtime.getRuntime().exec(cmd);
+        int code = process.waitFor();
+        logger.info("exit with code: {}", code);
+        if (code != 0) {
+            throw new RuntimeException("Failed to make pipe");
+        }
+    }
+
+    private void abortBoot() {
+        ctx.close();
+    }
+
     public File getPipe() {
         return pipe;
     }
