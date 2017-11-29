@@ -21,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 @Service
-public class AsrServiceImpl implements AsrService, NlsListener {
+public class AsrServiceImpl implements AsrService {
     @Value("${site.asr.acKeyId}")
     private String acKeyId;
 
@@ -58,15 +58,4 @@ public class AsrServiceImpl implements AsrService, NlsListener {
         return deferred;
     }
 
-    @Override
-    public void onMessageReceived(NlsEvent nlsEvent) {
-    }
-
-    @Override
-    public void onOperationFailed(NlsEvent nlsEvent) {
-    }
-
-    @Override
-    public void onChannelClosed(NlsEvent nlsEvent) {
-    }
 }
