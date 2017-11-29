@@ -15,6 +15,7 @@ import com.alibaba.idst.nls.event.NlsListener;
 import com.alibaba.idst.nls.protocol.NlsRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class AsrServiceImpl implements AsrService, NlsListener {
@@ -44,7 +45,7 @@ public class AsrServiceImpl implements AsrService, NlsListener {
     }
 
     @Override
-    public TextResult translate() {
+    public TextResult translate(MultipartFile audio) {
         TextResult result = new TextResult();
         result.setResult("hello world");
         return result;
