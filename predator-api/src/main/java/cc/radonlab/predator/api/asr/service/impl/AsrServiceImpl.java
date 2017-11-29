@@ -115,14 +115,12 @@ public class AsrServiceImpl implements AsrService {
 
         @Override
         public void onOperationFailed(NlsEvent e) {
-            logger.info("request failed: [{}]: {}",
-                    e.getResponse().getStatus(), e.getErrorMessage());
+            logger.info("request failed: {}", e.getErrorMessage());
         }
 
         @Override
         public void onChannelClosed(NlsEvent e) {
-            logger.info("connection closed: [{}]: {}",
-                    e.getResponse().getStatus(), e.getErrorMessage());
+            logger.info("connection closed: {}", e.getErrorMessage());
         }
     }
 }
