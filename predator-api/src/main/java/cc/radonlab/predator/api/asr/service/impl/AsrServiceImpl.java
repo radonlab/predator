@@ -42,7 +42,9 @@ public class AsrServiceImpl implements AsrService {
         ServiceHelper helper = new ServiceHelper(deferred);
         // create request
         NlsRequest request = helper.createRequest(this.acKeyId, this.acKeySecret);
-        NlsFuture future = helper.startRequest(request);
+        // query nls server
+        NlsFuture future = helper.startConnection(request);
+        helper.sendData(audio, future);
         // set timeout
         future.await(1000 * 10);
         return deferred;
@@ -63,7 +65,10 @@ public class AsrServiceImpl implements AsrService {
             return request;
         }
 
-        public NlsFuture startRequest(NlsRequest request) {
+        public NlsFuture startConnection(NlsRequest request) {
+        }
+
+        public void sendData(MultipartFile audio, NlsFuture future) {
         }
 
         @Override
