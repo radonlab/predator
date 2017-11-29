@@ -13,6 +13,8 @@ import com.alibaba.idst.nls.NlsFuture;
 import com.alibaba.idst.nls.event.NlsEvent;
 import com.alibaba.idst.nls.event.NlsListener;
 import com.alibaba.idst.nls.protocol.NlsRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +27,8 @@ import java.util.concurrent.Future;
 
 @Service
 public class AsrServiceImpl implements AsrService {
+    private static Logger logger = LoggerFactory.getLogger(AsrServiceImpl.class);
+
     @Value("${site.asr.acKeyId}")
     private String acKeyId;
 
@@ -99,11 +103,13 @@ public class AsrServiceImpl implements AsrService {
         }
 
         @Override
-        public void onOperationFailed(NlsEvent nlsEvent) {
+        public void onOperationFailed(NlsEvent e) {
+            logger.info("request failed: [{}]: {}", e.getResponse().getStatus(), e.getErrorMessage());
         }
 
         @Override
-        public void onChannelClosed(NlsEvent nlsEvent) {
+        public void onChannelClosed(NlsEvent e) {
+            logger.info("connection closed: [{}]: {}", e.getResponse().getStatus(), e.getErrorMessage());
         }
     }
 }
