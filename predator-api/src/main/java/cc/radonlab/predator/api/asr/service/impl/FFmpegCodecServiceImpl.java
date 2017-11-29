@@ -89,6 +89,8 @@ public class FFmpegCodecServiceImpl implements CodecService {
         while ((size = is.read(buffer)) > 0) {
             os.write(buffer, 0, size);
         }
+        is.close();
+        os.close();
         return process.getInputStream();
     }
 }
