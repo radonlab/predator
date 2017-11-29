@@ -1,4 +1,5 @@
 dependencies {
     compile fileTree(dir: 'lib', includes: ['*.jar'])
     compile 'io.netty:netty:3.7.1.Final'
+    compile 'com.alibaba:fastjson:1.2.26'
 }
