@@ -35,27 +35,47 @@ public class AsrServiceImpl implements AsrService {
         client.init();
     }
 
-    private NlsRequest createRequest() {
-        NlsRequest request = new NlsRequest();
-        request.authorize(this.acKeyId, this.acKeySecret);
-        return request;
-    }
-
-    private void sendAudioData (MultipartFile audio, NlsFuture future) {
-    }
-
     @Override
     public Future<TextResult> translate(MultipartFile audio) {
         CompletableFuture<TextResult> deferred = new CompletableFuture<>();
-        // create nls request
-        NlsRequest request = createRequest();
-        // setup callback
-        NlsFuture future = client.createNlsFuture(request, );
-        // send data
-        sendAudioData(audio, future);
+        // setup helper
+        ServiceHelper helper = new ServiceHelper(deferred);
+        // create request
+        NlsRequest request = helper.createRequest(this.acKeyId, this.acKeySecret);
+        NlsFuture future = helper.startRequest(request);
         // set timeout
         future.await(1000 * 10);
         return deferred;
     }
 
+    class ServiceHelper implements NlsListener {
+        private CompletableFuture<TextResult> deffered;
+
+        public ServiceHelper(CompletableFuture<TextResult> deffered) {
+            this.deffered = deffered;
+        }
+
+        public NlsRequest createRequest(String acKeyId, String acKeySecret) {
+            NlsRequest request = new NlsRequest();
+            request.setAppKey("nls-service");
+            request.setAsrFormat("pcm");
+            request.authorize(acKeyId, acKeySecret);
+            return request;
+        }
+
+        public NlsFuture startRequest(NlsRequest request) {
+        }
+
+        @Override
+        public void onMessageReceived(NlsEvent nlsEvent) {
+        }
+
+        @Override
+        public void onOperationFailed(NlsEvent nlsEvent) {
+        }
+
+        @Override
+        public void onChannelClosed(NlsEvent nlsEvent) {
+        }
+    }
 }
