@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
@@ -66,9 +69,29 @@ public class AsrServiceImpl implements AsrService {
         }
 
         public NlsFuture startConnection(NlsRequest request) {
+            NlsFuture future = null;
+            try {
+                future = client.createNlsFuture(request, this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return future;
         }
 
         public void sendData(MultipartFile audio, NlsFuture future) {
+            try {
+                InputStream is = new BufferedInputStream(audio.getInputStream());
+                byte[] buffer = new byte[8000];
+                int size = 0;
+                while ((size = is.read(buffer)) > 0) {
+                    future.sendVoice(buffer, 0, size);
+                }
+                future.sendFinishSignal();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
