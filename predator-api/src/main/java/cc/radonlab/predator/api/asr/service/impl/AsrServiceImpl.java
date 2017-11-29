@@ -14,6 +14,7 @@ import com.alibaba.idst.nls.NlsFuture;
 import com.alibaba.idst.nls.event.NlsEvent;
 import com.alibaba.idst.nls.event.NlsListener;
 import com.alibaba.idst.nls.protocol.NlsRequest;
+import com.alibaba.idst.nls.protocol.NlsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +104,15 @@ public class AsrServiceImpl implements AsrService {
         }
 
         @Override
-        public void onMessageReceived(NlsEvent nlsEvent) {
+        public void onMessageReceived(NlsEvent e) {
+            logger.info("message received");
+            NlsResponse response = e.getResponse();
+            String ret = response.getAsr_ret();
+            if (ret != null) {
+                TextResult result = new TextResult();
+                result.setResult(ret);
+                deffered.complete(result);
+            }
         }
 
         @Override
