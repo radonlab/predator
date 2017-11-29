@@ -8,6 +8,7 @@ package cc.radonlab.predator.api.asr.service.impl;
 
 import cc.radonlab.predator.api.asr.domain.TextResult;
 import cc.radonlab.predator.api.asr.service.AsrService;
+import cc.radonlab.predator.api.asr.service.CodecService;
 import com.alibaba.idst.nls.NlsClient;
 import com.alibaba.idst.nls.NlsFuture;
 import com.alibaba.idst.nls.event.NlsEvent;
@@ -15,6 +16,7 @@ import com.alibaba.idst.nls.event.NlsListener;
 import com.alibaba.idst.nls.protocol.NlsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +36,9 @@ public class AsrServiceImpl implements AsrService {
 
     @Value("${site.asr.acKeySecret}")
     private String acKeySecret;
+
+    @Autowired
+    private CodecService codec;
 
     private NlsClient client;
 
