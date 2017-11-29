@@ -9,6 +9,8 @@ package cc.radonlab.predator.api.asr.service;
 import cc.radonlab.predator.api.asr.domain.TextResult;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.concurrent.Future;
+
 public interface AsrService {
-    public TextResult translate(MultipartFile audio);
+    public Future<TextResult> translate(MultipartFile audio);
 }

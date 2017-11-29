@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.concurrent.Future;
+
 @Service
 public class AsrServiceImpl implements AsrService, NlsListener {
     @Value("${site.asr.acKeyId}")
@@ -45,7 +47,7 @@ public class AsrServiceImpl implements AsrService, NlsListener {
     }
 
     @Override
-    public TextResult translate(MultipartFile audio) {
+    public Future<TextResult> translate(MultipartFile audio) {
         TextResult result = new TextResult();
         result.setResult("hello world");
         return result;
