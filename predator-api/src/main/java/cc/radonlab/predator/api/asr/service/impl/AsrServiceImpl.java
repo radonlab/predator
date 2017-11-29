@@ -57,8 +57,6 @@ public class AsrServiceImpl implements AsrService {
         // query nls server
         NlsFuture future = helper.startConnection(request);
         helper.sendData(audio, future);
-        // set timeout
-        future.await(1000 * 10);
         return deferred;
     }
 
