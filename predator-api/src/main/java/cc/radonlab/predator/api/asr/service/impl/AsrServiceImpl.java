@@ -87,6 +87,7 @@ public class AsrServiceImpl implements AsrService {
 
         public void sendData(MultipartFile audio, NlsFuture future) {
             try {
+                logger.info("transcode file: {}", audio.getContentType());
                 InputStream is = codec.transcode(audio.getInputStream());
                 byte[] buffer = new byte[8000];
                 int size;
