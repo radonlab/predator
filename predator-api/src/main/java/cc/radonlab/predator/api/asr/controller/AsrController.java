@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
  * Controller that converts audio to text model.
  */
 @RestController
-@RequestMapping("/asr")
+@RequestMapping("/api/asr")
 public class AsrController {
     private AsrService asrService;
 
