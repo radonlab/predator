@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 @Service
@@ -40,17 +41,21 @@ public class AsrServiceImpl implements AsrService, NlsListener {
         return request;
     }
 
-    public void sendQuery() throws Exception {
-        NlsRequest request = createRequest();
-        NlsFuture future = client.createNlsFuture(request, this);
-        future.await(1000 * 10);
+    private void sendAudioData (MultipartFile audio, NlsFuture future) {
     }
 
     @Override
     public Future<TextResult> translate(MultipartFile audio) {
-        TextResult result = new TextResult();
-        result.setResult("hello world");
-        return result;
+        CompletableFuture<TextResult> deferred = new CompletableFuture<>();
+        // create nls request
+        NlsRequest request = createRequest();
+        // setup callback
+        NlsFuture future = client.createNlsFuture(request, );
+        // send data
+        sendAudioData(audio, future);
+        // set timeout
+        future.await(1000 * 10);
+        return deferred;
     }
 
     @Override
