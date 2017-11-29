@@ -6,8 +6,9 @@
 
 package cc.radonlab.predator.api.asr.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 public interface CodecService {
-    public InputStream transcode(InputStream is);
+    public InputStream transcode(InputStream is) throws IOException;
 }

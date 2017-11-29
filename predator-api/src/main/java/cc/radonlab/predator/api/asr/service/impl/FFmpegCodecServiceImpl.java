@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 @Service
 public class FFmpegCodecServiceImpl implements CodecService {
@@ -71,7 +69,26 @@ public class FFmpegCodecServiceImpl implements CodecService {
     }
 
     @Override
-    public InputStream transcode(InputStream is) {
-        return null;
+    public synchronized InputStream transcode(InputStream src) throws IOException {
+        // make FFmpeg read from pipe
+        String[] cmd = {
+                "ffmpeg",
+                "-i", getPipe().getAbsolutePath(),
+                "-f", "s16le",
+                "-acodec", "pcm_s16le",
+                "-ac", "1",
+                "-ar", "16000",
+                "-"
+        };
+        Process process = Runtime.getRuntime().exec(cmd);
+        // write to pipe
+        InputStream is = new BufferedInputStream(src);
+        OutputStream os = new BufferedOutputStream(new FileOutputStream(getPipe()));
+        byte[] buffer = new byte[1024 * 8];
+        int size;
+        while ((size = is.read(buffer)) > 0) {
+            os.write(buffer, 0, size);
+        }
+        return process.getInputStream();
     }
 }
