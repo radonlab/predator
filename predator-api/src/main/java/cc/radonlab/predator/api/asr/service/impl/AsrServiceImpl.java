@@ -19,6 +19,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 @Service
 public class AsrServiceImpl implements AsrService {
     private static Logger logger = LoggerFactory.getLogger(AsrServiceImpl.class);
@@ -44,6 +47,27 @@ public class AsrServiceImpl implements AsrService {
     @Override
     @Async
     public void translate(AudioBuffer audio, DeferredResult<TextResult> deferred) {
+        recognizer.startListening(new AsrHandler(deferred));
+        writeData(audio);
+        recognizer.stopListening();
+    }
+
+    private void writeData(AudioBuffer audio) {
+        try {
+            logger.info("transcode: {}-{}", audio.getName(), audio.getContentType());
+            InputStream is = codec.transcode(audio);
+            byte[] buffer = new byte[4800];
+            int size = 0;
+            int length;
+            while ((length = is.read(buffer)) > 0) {
+                recognizer.writeAudio(buffer, 0, length);
+                size += length;
+                Thread.sleep(150);
+            }
+            logger.info("finish writing data: {} bytes", size);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private class AsrHandler implements RecognizerListener {
