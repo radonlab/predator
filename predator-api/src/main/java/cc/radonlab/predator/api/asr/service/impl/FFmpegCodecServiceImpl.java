@@ -53,10 +53,10 @@ public class FFmpegCodecServiceImpl implements CodecService {
                 "mkfifo",
                 pipe.getAbsolutePath()
         };
-        logger.info("exec: {}", String.join(" ", cmd));
+        logger.info("Exec: {}", String.join(" ", cmd));
         Process process = Runtime.getRuntime().exec(cmd);
         int code = process.waitFor();
-        logger.info("exit with code: {}", code);
+        logger.info("Exit with code: {}", code);
         if (code != 0) {
             throw new RuntimeException("Failed to make pipe");
         }

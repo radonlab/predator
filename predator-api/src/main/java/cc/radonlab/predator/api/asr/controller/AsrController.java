@@ -43,7 +43,7 @@ public class AsrController {
             AudioBuffer buffer = AudioBuffer.getBuffer(audio);
             asrService.translate(buffer, deferred);
         } catch (IOException e) {
-            logger.error("Failed to read uploaded audio", e);
+            logger.error("Failed to read audio", e);
             deferred.setErrorResult(e);
         }
         return deferred;

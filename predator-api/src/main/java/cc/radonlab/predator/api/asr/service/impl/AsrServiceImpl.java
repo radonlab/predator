@@ -54,7 +54,7 @@ public class AsrServiceImpl implements AsrService {
 
     private void writeData(AudioBuffer audio) {
         try {
-            logger.info("transcode: {}-{}", audio.getName(), audio.getContentType());
+            logger.info("Transcode: {}-{}", audio.getName(), audio.getContentType());
             InputStream is = codec.transcode(audio);
             byte[] buffer = new byte[4800];
             int size = 0;
@@ -64,7 +64,7 @@ public class AsrServiceImpl implements AsrService {
                 size += length;
                 Thread.sleep(150);
             }
-            logger.info("finish writing data: {} bytes", size);
+            logger.info("Finish writing data: {} bytes", size);
         } catch (IOException | InterruptedException e) {
             logger.error("Failed to write data", e);
         }
