@@ -89,11 +89,14 @@ public class AsrServiceImpl implements AsrService {
                 logger.info("transcode file: {}", audio.getContentType());
                 InputStream is = codec.transcode(audio);
                 byte[] buffer = new byte[8000];
-                int size;
-                while ((size = is.read(buffer)) > 0) {
-                    future.sendVoice(buffer, 0, size);
+                int size = 0;
+                int length;
+                while ((length = is.read(buffer)) > 0) {
+                    future.sendVoice(buffer, 0, length);
+                    size += length;
                 }
                 future.sendFinishSignal();
+                logger.info("finish sending data: {} bytes", size);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {
