@@ -31,11 +31,8 @@ import java.io.InputStream;
 public class AsrServiceImpl implements AsrService {
     private static Logger logger = LoggerFactory.getLogger(AsrServiceImpl.class);
 
-    @Value("${site.asr.acKeyId}")
-    private String acKeyId;
-
-    @Value("${site.asr.acKeySecret}")
-    private String acKeySecret;
+    @Value("${site.asr.appId}")
+    private String appId;
 
     @Autowired
     private CodecService codec;
