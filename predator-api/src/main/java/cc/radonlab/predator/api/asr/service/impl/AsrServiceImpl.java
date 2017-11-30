@@ -39,18 +39,13 @@ public class AsrServiceImpl implements AsrService {
     public AsrServiceImpl() {
         SpeechUtility.createUtility(SpeechConstant.APPID + "=" + appId);
         recognizer = SpeechRecognizer.createRecognizer();
+        recognizer.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+        recognizer.setParameter(SpeechConstant.ACCENT, "mandarin");
     }
 
     @Override
     @Async
     public void translate(AudioBuffer audio, DeferredResult<TextResult> deferred) {
-        // setup helper
-        ServiceHelper helper = new ServiceHelper(deferred);
-        // create request
-        NlsRequest request = helper.createRequest(this.acKeyId, this.acKeySecret);
-        // query nls server
-        NlsFuture future = helper.startConnection(request);
-        helper.sendData(audio, future);
     }
 
     private class ServiceHelper {
