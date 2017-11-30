@@ -6,6 +6,7 @@
 
 package cc.radonlab.predator.api.asr.controller;
 
+import cc.radonlab.predator.api.asr.domain.AudioBuffer;
 import cc.radonlab.predator.api.asr.domain.TextResult;
 import cc.radonlab.predator.api.asr.service.AsrService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.concurrent.Future;
+import java.io.IOException;
 
 /**
  * Controller that converts audio to text model.
@@ -31,7 +33,15 @@ public class AsrController {
     }
 
     @PostMapping
-    public Future<TextResult> convert(@RequestParam("audio") MultipartFile audio) {
-        return asrService.translate(audio);
+    public DeferredResult<TextResult> convert(@RequestParam("audio") MultipartFile audio) {
+        DeferredResult<TextResult> deferred = new DeferredResult<>();
+        try {
+            AudioBuffer buffer = AudioBuffer.getBuffer(audio);
+            asrService.translate(buffer, deferred);
+        } catch (IOException e) {
+            e.printStackTrace();
+            deferred.setErrorResult(e);
+        }
+        return deferred;
     }
 }

@@ -49,8 +49,7 @@ public class AsrServiceImpl implements AsrService {
 
     @Override
     @Async
-    public DeferredResult<TextResult> translate(AudioBuffer audio) {
-        DeferredResult<TextResult> deferred = new DeferredResult<>();
+    public void translate(AudioBuffer audio, DeferredResult<TextResult> deferred) {
         // setup helper
         ServiceHelper helper = new ServiceHelper(deferred);
         // create request
@@ -58,7 +57,6 @@ public class AsrServiceImpl implements AsrService {
         // query nls server
         NlsFuture future = helper.startConnection(request);
         helper.sendData(audio, future);
-        return deferred;
     }
 
     private class ServiceHelper implements NlsListener {
