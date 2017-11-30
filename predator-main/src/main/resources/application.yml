@@ -5,5 +5,4 @@ logging:
   path: logs
 site:
   asr:
-    acKeyId: admin
-    acKeySecret: 123456
+    appId: 123456
