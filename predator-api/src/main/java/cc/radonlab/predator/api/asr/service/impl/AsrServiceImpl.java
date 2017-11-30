@@ -23,19 +23,22 @@ import org.springframework.web.context.request.async.DeferredResult;
 public class AsrServiceImpl implements AsrService {
     private static Logger logger = LoggerFactory.getLogger(AsrServiceImpl.class);
 
-    @Value("${site.asr.appId}")
-    private String appId;
-
     @Autowired
     private CodecService codec;
 
     private SpeechRecognizer recognizer;
 
-    public AsrServiceImpl() {
+    @Autowired
+    public AsrServiceImpl(
+            @Value("${site.asr.appId}")
+            String appId
+    ) {
         SpeechUtility.createUtility(SpeechConstant.APPID + "=" + appId);
         recognizer = SpeechRecognizer.createRecognizer();
         recognizer.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
         recognizer.setParameter(SpeechConstant.ACCENT, "mandarin");
+        // Use source from data stream
+        recognizer.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");
     }
 
     @Override
