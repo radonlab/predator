@@ -42,7 +42,7 @@ public class FFmpegCodecServiceImpl implements CodecService {
             }
             return pipe;
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Failed to make pipe file", e);
             abortBoot();
             return null;
         }

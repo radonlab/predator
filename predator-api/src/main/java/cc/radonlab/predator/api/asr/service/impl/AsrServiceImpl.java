@@ -66,7 +66,7 @@ public class AsrServiceImpl implements AsrService {
             }
             logger.info("finish writing data: {} bytes", size);
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Failed to write data", e);
         }
     }
 

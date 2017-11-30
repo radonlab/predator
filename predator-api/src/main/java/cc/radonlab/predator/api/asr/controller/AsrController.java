@@ -9,6 +9,8 @@ package cc.radonlab.predator.api.asr.controller;
 import cc.radonlab.predator.api.asr.domain.AudioBuffer;
 import cc.radonlab.predator.api.asr.domain.TextResult;
 import cc.radonlab.predator.api.asr.service.AsrService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/asr")
 public class AsrController {
+    private static Logger logger = LoggerFactory.getLogger(AsrController.class);
+
     private AsrService asrService;
 
     @Autowired
@@ -39,7 +43,7 @@ public class AsrController {
             AudioBuffer buffer = AudioBuffer.getBuffer(audio);
             asrService.translate(buffer, deferred);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to read uploaded audio", e);
             deferred.setErrorResult(e);
         }
         return deferred;
