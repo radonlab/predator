@@ -6,9 +6,10 @@
 
 package cc.radonlab.predator.api.asr.service;
 
+import cc.radonlab.predator.api.asr.domain.AudioBuffer;
 import cc.radonlab.predator.api.asr.domain.TextResult;
 import org.springframework.web.context.request.async.DeferredResult;
 
 public interface AsrService {
-    public DeferredResult<TextResult> translate(byte[] audio, String type);
+    public DeferredResult<TextResult> translate(AudioBuffer audio);
 }
