@@ -49,7 +49,18 @@ public class TextResult {
         return result;
     }
 
-    public void setResult(List<JsonNode> result) {
-        this.result = result;
+    public String getOverview() {
+        StringBuilder sb = new StringBuilder();
+        for (JsonNode node : result) {
+            Iterable<JsonNode> ws = node.get("ws");
+            for (JsonNode w : ws) {
+                Iterable<JsonNode> cw = w.get("cw");
+                for (JsonNode word : cw) {
+                    String s = word.get("w").asText();
+                    sb.append(s);
+                }
+            }
+        }
+        return sb.toString();
     }
 }
