@@ -53,69 +53,32 @@ public class AsrServiceImpl implements AsrService {
         helper.sendData(audio, future);
     }
 
-    private class ServiceHelper implements NlsListener {
+    private class ServiceHelper {
         private DeferredResult<TextResult> deffered;
 
         ServiceHelper(DeferredResult<TextResult> deffered) {
             this.deffered = deffered;
         }
 
-        NlsRequest createRequest(String acKeyId, String acKeySecret) {
-            NlsRequest request = new NlsRequest();
-            request.setAppKey("nls-service");
-            request.setAsrFormat("pcm");
-            request.authorize(acKeyId, acKeySecret);
-            return request;
-        }
-
-        NlsFuture startConnection(NlsRequest request) {
-            NlsFuture future = null;
-            try {
-                future = client.createNlsFuture(request, this);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return future;
-        }
-
-        void sendData(AudioBuffer audio, NlsFuture future) {
-            try {
-                logger.info("transcode file: {}", audio.getContentType());
-                InputStream is = codec.transcode(audio);
-                byte[] buffer = new byte[8000];
-                int size = 0;
-                int length;
-                while ((length = is.read(buffer)) > 0) {
-                    future.sendVoice(buffer, 0, length);
-                    size += length;
-                }
-                future.sendFinishSignal();
-                logger.info("finish sending data: {} bytes", size);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onMessageReceived(NlsEvent e) {
-            logger.info("message received");
-            NlsResponse response = e.getResponse();
-            String ret = response.getAsr_ret();
-            if (ret != null) {
-                TextResult result = new TextResult();
-                result.setResult(ret);
-                deffered.setResult(result);
-            }
-        }
-
-        @Override
-        public void onOperationFailed(NlsEvent e) {
-            logger.info("request failed: {}", e.getErrorMessage());
-        }
-
-        @Override
-        public void onChannelClosed(NlsEvent e) {
-            logger.info("connection closed: {}", e.getErrorMessage());
-        }
+//        void sendData(AudioBuffer audio, NlsFuture future) {
+//            try {
+//                logger.info("transcode file: {}", audio.getContentType());
+//                InputStream is = codec.transcode(audio);
+//                byte[] buffer = new byte[8000];
+//                int size = 0;
+//                int length;
+//                while ((length = is.read(buffer)) > 0) {
+//                    System.out.println("->" + size);
+//                    future.sendVoice(buffer, 0, length);
+//                    size += length;
+//                    Thread.sleep(50);
+//                }
+//                future.sendFinishSignal();
+//                future.await(10000);
+//                logger.info("finish sending data: {} bytes", size);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 }
