@@ -6,17 +6,29 @@
 
 package cc.radonlab.predator.api.asr.domain;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class TextResult {
-    private String result;
+    private static ObjectMapper parser = new ObjectMapper();
+
+    private List<JsonNode> result;
 
     public TextResult() {
+        result = new ArrayList<>();
     }
 
-    public String getResult() {
+    public void append(String json) {
+    }
+
+    public List<JsonNode> getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(List<JsonNode> result) {
         this.result = result;
     }
 }
