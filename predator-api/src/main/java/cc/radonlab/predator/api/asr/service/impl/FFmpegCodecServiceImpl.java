@@ -82,6 +82,7 @@ public class FFmpegCodecServiceImpl implements CodecService {
                 "-ar", "16000",
                 "-"
         };
+        logger.info("Exec: {}", String.join(" ", cmd));
         Process process = Runtime.getRuntime().exec(cmd);
         // write to pipe
         InputStream is = new ByteArrayInputStream(buffer.getBuffer());
