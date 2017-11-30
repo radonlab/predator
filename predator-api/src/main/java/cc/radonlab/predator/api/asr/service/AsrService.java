@@ -7,10 +7,8 @@
 package cc.radonlab.predator.api.asr.service;
 
 import cc.radonlab.predator.api.asr.domain.TextResult;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.concurrent.Future;
+import org.springframework.web.context.request.async.DeferredResult;
 
 public interface AsrService {
-    public Future<TextResult> translate(MultipartFile audio);
+    public DeferredResult<TextResult> translate(byte[] audio, String type);
 }
