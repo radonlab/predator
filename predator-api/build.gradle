@@ -1,5 +1,6 @@
 dependencies {
     compile fileTree(dir: 'lib', includes: ['*.jar'])
+    compile 'com.google.guava:guava:22.0'
     compile 'io.netty:netty:3.7.1.Final'
     compile 'com.alibaba:fastjson:1.2.26'
 }
