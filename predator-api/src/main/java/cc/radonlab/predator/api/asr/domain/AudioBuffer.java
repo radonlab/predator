@@ -6,12 +6,24 @@
 
 package cc.radonlab.predator.api.asr.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+
 public class AudioBuffer {
     private String name;
     private byte[] buffer;
     private String contentType;
 
-    public AudioBuffer() {
+    public static AudioBuffer getBuffer(MultipartFile file) throws IOException {
+        AudioBuffer audioBuffer = new AudioBuffer();
+        audioBuffer.name = file.getName();
+        audioBuffer.buffer = file.getBytes();
+        audioBuffer.contentType = file.getContentType();
+        return audioBuffer;
+    }
+
+    private AudioBuffer() {
     }
 
     public String getName() {
