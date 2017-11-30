@@ -8,7 +8,10 @@ package cc.radonlab.predator.api.asr.domain;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,7 @@ import java.util.List;
 //     sc: {number} - score
 
 public class TextResult {
+    private static Logger logger = LoggerFactory.getLogger(TextResult.class);
     private static ObjectMapper parser = new ObjectMapper();
 
     private List<JsonNode> result;
@@ -33,6 +37,12 @@ public class TextResult {
     }
 
     public void append(String json) {
+        try {
+            JsonNode node = parser.readTree(json);
+            result.add(node);
+        } catch (IOException e) {
+            logger.error("Failed to append result", e);
+        }
     }
 
     public List<JsonNode> getResult() {
