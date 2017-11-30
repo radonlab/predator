@@ -90,11 +90,14 @@ public class AsrServiceImpl implements AsrService {
         }
 
         @Override
-        public void onResult(RecognizerResult recognizerResult, boolean b) {
+        public void onResult(RecognizerResult recognizerResult, boolean last) {
+            logger.info("Recognizer result");
         }
 
         @Override
         public void onError(SpeechError speechError) {
+            deffered.setErrorResult(speechError);
+            logger.error("Recognizer error", speechError);
         }
 
         @Override
