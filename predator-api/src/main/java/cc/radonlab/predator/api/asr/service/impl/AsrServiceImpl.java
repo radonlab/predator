@@ -72,9 +72,11 @@ public class AsrServiceImpl implements AsrService {
 
     private class AsrHandler implements RecognizerListener {
         private DeferredResult<TextResult> deffered;
+        private TextResult result;
 
         private AsrHandler(DeferredResult<TextResult> deffered) {
             this.deffered = deffered;
+            this.result = new TextResult();
         }
 
         @Override
