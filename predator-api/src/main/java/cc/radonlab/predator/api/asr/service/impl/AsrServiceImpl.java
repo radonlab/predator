@@ -97,8 +97,6 @@ public class AsrServiceImpl implements AsrService {
                 }
                 future.sendFinishSignal();
                 logger.info("finish sending data: {} bytes", size);
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -112,7 +110,7 @@ public class AsrServiceImpl implements AsrService {
             if (ret != null) {
                 TextResult result = new TextResult();
                 result.setResult(ret);
-                deffered.complete(result);
+                deffered.setResult(result);
             }
         }
 
