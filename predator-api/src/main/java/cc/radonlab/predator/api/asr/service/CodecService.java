@@ -6,9 +6,11 @@
 
 package cc.radonlab.predator.api.asr.service;
 
+import cc.radonlab.predator.api.asr.domain.AudioBuffer;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 public interface CodecService {
-    public InputStream transcode(InputStream is) throws IOException;
+    public InputStream transcode(AudioBuffer buffer) throws IOException;
 }

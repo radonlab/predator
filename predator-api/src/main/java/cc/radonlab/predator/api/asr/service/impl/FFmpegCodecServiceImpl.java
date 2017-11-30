@@ -6,7 +6,9 @@
 
 package cc.radonlab.predator.api.asr.service.impl;
 
+import cc.radonlab.predator.api.asr.domain.AudioBuffer;
 import cc.radonlab.predator.api.asr.service.CodecService;
+import com.google.common.io.ByteStreams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +71,7 @@ public class FFmpegCodecServiceImpl implements CodecService {
     }
 
     @Override
-    public synchronized InputStream transcode(InputStream src) throws IOException {
+    public synchronized InputStream transcode(AudioBuffer buffer) throws IOException {
         // make FFmpeg read from pipe
         String[] cmd = {
                 "ffmpeg",
@@ -82,13 +84,9 @@ public class FFmpegCodecServiceImpl implements CodecService {
         };
         Process process = Runtime.getRuntime().exec(cmd);
         // write to pipe
-        InputStream is = new BufferedInputStream(src);
+        InputStream is = new ByteArrayInputStream(buffer.getBuffer());
         OutputStream os = new BufferedOutputStream(new FileOutputStream(getPipe()));
-        byte[] buffer = new byte[1024 * 8];
-        int size;
-        while ((size = is.read(buffer)) > 0) {
-            os.write(buffer, 0, size);
-        }
+        ByteStreams.copy(is, os);
         is.close();
         os.close();
         return process.getInputStream();
