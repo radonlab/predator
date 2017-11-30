@@ -6,6 +6,7 @@
 
 package cc.radonlab.predator.api.asr.service.impl;
 
+import cc.radonlab.predator.api.asr.domain.AudioBuffer;
 import cc.radonlab.predator.api.asr.domain.TextResult;
 import cc.radonlab.predator.api.asr.service.AsrService;
 import cc.radonlab.predator.api.asr.service.CodecService;
@@ -21,12 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 @Service
 public class AsrServiceImpl implements AsrService {
@@ -50,8 +49,8 @@ public class AsrServiceImpl implements AsrService {
 
     @Override
     @Async
-    public Future<TextResult> translate(MultipartFile audio) {
-        CompletableFuture<TextResult> deferred = new CompletableFuture<>();
+    public DeferredResult<TextResult> translate(AudioBuffer audio) {
+        DeferredResult<TextResult> deferred = new DeferredResult<>();
         // setup helper
         ServiceHelper helper = new ServiceHelper(deferred);
         // create request
@@ -62,14 +61,14 @@ public class AsrServiceImpl implements AsrService {
         return deferred;
     }
 
-    class ServiceHelper implements NlsListener {
-        private CompletableFuture<TextResult> deffered;
+    private class ServiceHelper implements NlsListener {
+        private DeferredResult<TextResult> deffered;
 
-        public ServiceHelper(CompletableFuture<TextResult> deffered) {
+        ServiceHelper(DeferredResult<TextResult> deffered) {
             this.deffered = deffered;
         }
 
-        public NlsRequest createRequest(String acKeyId, String acKeySecret) {
+        NlsRequest createRequest(String acKeyId, String acKeySecret) {
             NlsRequest request = new NlsRequest();
             request.setAppKey("nls-service");
             request.setAsrFormat("pcm");
@@ -77,7 +76,7 @@ public class AsrServiceImpl implements AsrService {
             return request;
         }
 
-        public NlsFuture startConnection(NlsRequest request) {
+        NlsFuture startConnection(NlsRequest request) {
             NlsFuture future = null;
             try {
                 future = client.createNlsFuture(request, this);
@@ -87,10 +86,10 @@ public class AsrServiceImpl implements AsrService {
             return future;
         }
 
-        public void sendData(MultipartFile audio, NlsFuture future) {
+        void sendData(AudioBuffer audio, NlsFuture future) {
             try {
                 logger.info("transcode file: {}", audio.getContentType());
-                InputStream is = codec.transcode(audio.getInputStream());
+                InputStream is = codec.transcode(audio);
                 byte[] buffer = new byte[8000];
                 int size;
                 while ((size = is.read(buffer)) > 0) {
