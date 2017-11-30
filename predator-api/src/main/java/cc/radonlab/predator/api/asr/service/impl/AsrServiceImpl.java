@@ -73,26 +73,5 @@ public class AsrServiceImpl implements AsrService {
         @Override
         public void onEvent(int i, int i1, int i2, String s) {
         }
-
-//        void sendData(AudioBuffer audio, NlsFuture future) {
-//            try {
-//                logger.info("transcode file: {}", audio.getContentType());
-//                InputStream is = codec.transcode(audio);
-//                byte[] buffer = new byte[8000];
-//                int size = 0;
-//                int length;
-//                while ((length = is.read(buffer)) > 0) {
-//                    System.out.println("->" + size);
-//                    future.sendVoice(buffer, 0, length);
-//                    size += length;
-//                    Thread.sleep(50);
-//                }
-//                future.sendFinishSignal();
-//                future.await(10000);
-//                logger.info("finish sending data: {} bytes", size);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 }
