@@ -10,12 +10,9 @@ import cc.radonlab.predator.api.asr.domain.AudioBuffer;
 import cc.radonlab.predator.api.asr.domain.TextResult;
 import cc.radonlab.predator.api.asr.service.AsrService;
 import cc.radonlab.predator.api.asr.service.CodecService;
-import com.alibaba.idst.nls.NlsClient;
-import com.alibaba.idst.nls.NlsFuture;
-import com.alibaba.idst.nls.event.NlsEvent;
-import com.alibaba.idst.nls.event.NlsListener;
-import com.alibaba.idst.nls.protocol.NlsRequest;
-import com.alibaba.idst.nls.protocol.NlsResponse;
+import com.iflytek.cloud.speech.SpeechConstant;
+import com.iflytek.cloud.speech.SpeechRecognizer;
+import com.iflytek.cloud.speech.SpeechUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +34,11 @@ public class AsrServiceImpl implements AsrService {
     @Autowired
     private CodecService codec;
 
-    private NlsClient client;
+    private SpeechRecognizer recognizer;
 
     public AsrServiceImpl() {
-        client = new NlsClient();
-        client.init();
+        SpeechUtility.createUtility(SpeechConstant.APPID + "=" + appId);
+        recognizer = SpeechRecognizer.createRecognizer();
     }
 
     @Override
