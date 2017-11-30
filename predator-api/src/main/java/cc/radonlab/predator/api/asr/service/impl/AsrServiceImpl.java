@@ -10,9 +10,7 @@ import cc.radonlab.predator.api.asr.domain.AudioBuffer;
 import cc.radonlab.predator.api.asr.domain.TextResult;
 import cc.radonlab.predator.api.asr.service.AsrService;
 import cc.radonlab.predator.api.asr.service.CodecService;
-import com.iflytek.cloud.speech.SpeechConstant;
-import com.iflytek.cloud.speech.SpeechRecognizer;
-import com.iflytek.cloud.speech.SpeechUtility;
+import com.iflytek.cloud.speech.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.async.DeferredResult;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 @Service
 public class AsrServiceImpl implements AsrService {
@@ -48,11 +43,35 @@ public class AsrServiceImpl implements AsrService {
     public void translate(AudioBuffer audio, DeferredResult<TextResult> deferred) {
     }
 
-    private class ServiceHelper {
+    private class AsrHandler implements RecognizerListener {
         private DeferredResult<TextResult> deffered;
 
-        ServiceHelper(DeferredResult<TextResult> deffered) {
+        private AsrHandler(DeferredResult<TextResult> deffered) {
             this.deffered = deffered;
+        }
+
+        @Override
+        public void onVolumeChanged(int i) {
+        }
+
+        @Override
+        public void onBeginOfSpeech() {
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+        }
+
+        @Override
+        public void onResult(RecognizerResult recognizerResult, boolean b) {
+        }
+
+        @Override
+        public void onError(SpeechError speechError) {
+        }
+
+        @Override
+        public void onEvent(int i, int i1, int i2, String s) {
         }
 
 //        void sendData(AudioBuffer audio, NlsFuture future) {
