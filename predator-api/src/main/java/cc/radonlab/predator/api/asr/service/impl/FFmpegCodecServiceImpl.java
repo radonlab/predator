@@ -96,6 +96,7 @@ public class FFmpegCodecServiceImpl implements CodecService {
         // launch two threads for io
         worker.execute(() -> {
             try {
+                logger.info("Writing data to pipe");
                 ByteStreams.copy(is, os);
                 is.close();
                 os.close();
@@ -105,6 +106,7 @@ public class FFmpegCodecServiceImpl implements CodecService {
         });
         worker.execute(() -> {
             try {
+                logger.info("Reading stderr stream");
                 InputStream stderr = process.getErrorStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(stderr));
                 String line;
