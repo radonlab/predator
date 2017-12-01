@@ -12,12 +12,12 @@ import com.google.common.io.ByteStreams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.concurrent.Executor;
 
 @Service
 public class FFmpegCodecServiceImpl implements CodecService {
@@ -26,12 +26,11 @@ public class FFmpegCodecServiceImpl implements CodecService {
     private static String TMP_DIR = System.getProperty("java.io.tmpdir");
     private static File PIPES_DIR = new File(TMP_DIR, "pdt-pipes");
 
-    @Autowired
-    @Qualifier("worker")
-    private Executor worker;
-
     private ConfigurableApplicationContext ctx;
     private File pipe;
+
+    @Autowired
+    private IOHelper helper;
 
     @Autowired
     public FFmpegCodecServiceImpl(ConfigurableApplicationContext ctx) {
@@ -94,29 +93,29 @@ public class FFmpegCodecServiceImpl implements CodecService {
         InputStream is = new ByteArrayInputStream(buffer.getBuffer());
         OutputStream os = new BufferedOutputStream(new FileOutputStream(getPipe()));
         // launch two threads for io
-        worker.execute(() -> {
-            try {
-                logger.info("Writing data to pipe");
-                ByteStreams.copy(is, os);
-                is.close();
-                os.close();
-            } catch (IOException e) {
-                logger.error("Error occurred while piping", e);
-            }
-        });
-        worker.execute(() -> {
-            try {
-                logger.info("Reading stderr stream");
-                InputStream stderr = process.getErrorStream();
-                BufferedReader br = new BufferedReader(new InputStreamReader(stderr));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    logger.trace(line);
-                }
-            } catch (IOException e) {
-                logger.error("Failed reading stderr");
-            }
-        });
+        helper.pipeData(is, os);
+        helper.readError(process.getErrorStream());
         return process.getInputStream();
+    }
+
+    @Component
+    class IOHelper {
+        @Async("worker")
+        public void pipeData(InputStream is, OutputStream os) throws IOException {
+            logger.info("Writing data to pipe");
+            ByteStreams.copy(is, os);
+            is.close();
+            os.close();
+        }
+
+        @Async("worker")
+        public void readError(InputStream stderr) throws IOException {
+            logger.info("Reading stderr stream");
+            BufferedReader br = new BufferedReader(new InputStreamReader(stderr));
+            String line;
+            while ((line = br.readLine()) != null) {
+                logger.trace(line);
+            }
+        }
     }
 }
