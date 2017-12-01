@@ -94,9 +94,15 @@ public class FFmpegCodecServiceImpl implements CodecService {
         // write to pipe
         InputStream is = new ByteArrayInputStream(buffer.getBuffer());
         OutputStream os = new BufferedOutputStream(new FileOutputStream(getPipe()));
-        ByteStreams.copy(is, os);
-        is.close();
-        os.close();
+        worker.execute(() -> {
+            try {
+                ByteStreams.copy(is, os);
+                is.close();
+                os.close();
+            } catch (IOException e) {
+                logger.error("Error occurred while piping", e);
+            }
+        });
         worker.execute(ProcessRunner.bind(process));
         return process.getInputStream();
     }
