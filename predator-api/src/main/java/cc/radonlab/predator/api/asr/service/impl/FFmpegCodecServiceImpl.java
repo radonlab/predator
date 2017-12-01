@@ -93,6 +93,7 @@ public class FFmpegCodecServiceImpl implements CodecService {
         // write to pipe
         InputStream is = new ByteArrayInputStream(buffer.getBuffer());
         OutputStream os = new BufferedOutputStream(new FileOutputStream(getPipe()));
+        // launch two threads for io
         worker.execute(() -> {
             try {
                 ByteStreams.copy(is, os);
@@ -102,7 +103,18 @@ public class FFmpegCodecServiceImpl implements CodecService {
                 logger.error("Error occurred while piping", e);
             }
         });
-        worker.execute(ProcessRunner.bind(process));
+        worker.execute(() -> {
+            try {
+                InputStream stderr = process.getErrorStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(stderr));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    logger.trace(line);
+                }
+            } catch (IOException e) {
+                logger.error("Failed reading stderr");
+            }
+        });
         return process.getInputStream();
     }
 }
