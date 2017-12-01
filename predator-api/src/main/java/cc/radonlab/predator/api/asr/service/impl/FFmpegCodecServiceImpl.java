@@ -92,9 +92,10 @@ public class FFmpegCodecServiceImpl implements CodecService {
         // write to pipe
         InputStream is = new ByteArrayInputStream(buffer.getBuffer());
         OutputStream os = new BufferedOutputStream(new FileOutputStream(getPipe()));
-        // launch two threads for io
+        // launch two threads for piping
         helper.pipeData(is, os);
         helper.readError(process.getErrorStream());
+        logger.info("Piping started");
         return process.getInputStream();
     }
 

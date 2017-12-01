@@ -99,6 +99,7 @@ public class AsrServiceImpl implements AsrService {
                 if (last) {
                     // last result
                     deffered.setResult(result);
+                    logger.info("Response");
                 }
             }
         }
