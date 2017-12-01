@@ -58,10 +58,10 @@ public class FFmpegCodecServiceImpl implements CodecService {
                 "mkfifo",
                 pipe.getAbsolutePath()
         };
-        logger.info("Exec: {}", String.join(" ", cmd));
+        logger.debug("Exec: {}", String.join(" ", cmd));
         Process process = Runtime.getRuntime().exec(cmd);
         int code = process.waitFor();
-        logger.info("Exit with code: {}", code);
+        logger.debug("Exit with code: {}", code);
         if (code != 0) {
             throw new RuntimeException("Failed to make pipe");
         }
@@ -87,7 +87,7 @@ public class FFmpegCodecServiceImpl implements CodecService {
                 "-ar", "16000",
                 "-"
         };
-        logger.info("Exec: {}", String.join(" ", cmd));
+        logger.debug("Exec: {}", String.join(" ", cmd));
         Process process = Runtime.getRuntime().exec(cmd);
         // write to pipe
         InputStream is = new ByteArrayInputStream(buffer.getBuffer());

@@ -93,7 +93,7 @@ public class AsrServiceImpl implements AsrService {
 
         @Override
         public void onResult(RecognizerResult recognizerResult, boolean last) {
-            logger.info("Recognizer result");
+            logger.debug("Recognizer result");
             if (recognizerResult != null) {
                 result.append(recognizerResult.getResultString());
                 if (last) {
