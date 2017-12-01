@@ -6,7 +6,10 @@
 
 package cc.radonlab.predator.api.asr.util;
 
-public class ProcessRunner<T> {
-    public ProcessRunner() {
+public class ProcessRunner implements Runnable {
+    private Process process;
+
+    private ProcessRunner(Process process) {
+        this.process = process;
     }
 }
