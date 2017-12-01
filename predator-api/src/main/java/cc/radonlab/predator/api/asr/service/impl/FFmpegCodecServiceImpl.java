@@ -12,10 +12,12 @@ import com.google.common.io.ByteStreams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.concurrent.Executor;
 
 @Service
 public class FFmpegCodecServiceImpl implements CodecService {
@@ -23,6 +25,10 @@ public class FFmpegCodecServiceImpl implements CodecService {
 
     private static String TMP_DIR = System.getProperty("java.io.tmpdir");
     private static File PIPES_DIR = new File(TMP_DIR, "pdt-pipes");
+
+    @Autowired
+    @Qualifier("worker")
+    private Executor worker;
 
     private ConfigurableApplicationContext ctx;
     private File pipe;
