@@ -8,6 +8,7 @@ package cc.radonlab.predator.api.asr.service.impl;
 
 import cc.radonlab.predator.api.asr.domain.AudioBuffer;
 import cc.radonlab.predator.api.asr.service.CodecService;
+import cc.radonlab.predator.api.asr.util.ProcessRunner;
 import com.google.common.io.ByteStreams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +97,7 @@ public class FFmpegCodecServiceImpl implements CodecService {
         ByteStreams.copy(is, os);
         is.close();
         os.close();
+        worker.execute(ProcessRunner.bind(process));
         return process.getInputStream();
     }
 }

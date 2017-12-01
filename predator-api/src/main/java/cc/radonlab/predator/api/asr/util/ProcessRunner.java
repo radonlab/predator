@@ -9,6 +9,11 @@ package cc.radonlab.predator.api.asr.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class ProcessRunner implements Runnable {
     private static Logger logger = LoggerFactory.getLogger(ProcessRunner.class);
 
@@ -24,6 +29,15 @@ public class ProcessRunner implements Runnable {
 
     @Override
     public void run() {
-        logger.info("from worker");
+        try {
+            InputStream stderr = process.getErrorStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(stderr));
+            String line;
+            while ((line = br.readLine()) != null) {
+                logger.trace(line);
+            }
+        } catch (IOException e) {
+            logger.error("Failed reading stderr");
+        }
     }
 }
